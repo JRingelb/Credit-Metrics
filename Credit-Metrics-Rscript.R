@@ -3,13 +3,13 @@ library(readxl)
 library(dplyr)
 library(tidyr)
 
-Asset.Correlation <- read_excel("Excel-Workbook.xlsx", 
+Asset.Correlation <- read_excel("Credit-Metrics-Resources.xlsx", 
                                 sheet = "Asset.Correlation")
 
-Single.Factor <- read_excel("Excel-Workbook.xlsx", 
+Single.Factor <- read_excel("Credit-Metrics-Resources.xlsx", 
                             sheet = "Single.Factor")
 
-PD.Matrix <- read_excel("Excel-Workbook.xlsx", 
+PD.Matrix <- read_excel("Credit-Metrics-Resources.xlsx", 
                         sheet = "Historical") |>
   pivot_longer(contains("END.PD"),names_to = "End.PD", values_to = "Prob") |>
   mutate(End.PD = as.numeric(stringr::str_remove(End.PD,"End.PD.")))
@@ -29,3 +29,4 @@ PD.Transition.Matrices <- Single.Factor |>
          Prob_Adj_Lagged = pnorm(Lagged_Adjustmented),
          Probability = case_when(End.PD == 8 ~ Prob_Adj,
                                  TRUE ~ Prob_Adj - Prob_Adj_Lagged))
+
